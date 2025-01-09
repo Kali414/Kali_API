@@ -23,9 +23,9 @@ def predict():
         url = "https://cat-fact.herokuapp.com/facts"
         response = requests.get(url)
         data = response.json()
-        
+        l=[data[i]["text"] for i in range(len(data))]
         # Returning the list of facts
-        return jsonify({"Facts":[data[i]["text"] for i in range(len(data))]})  # Accessing the correct key
+        return jsonify({"Facts":l})  # Accessing the correct key
 
     # Handle POST requests (add your logic here if needed)
     else:
