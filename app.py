@@ -1,8 +1,8 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request,render_template,flash
 import requests
 
 app = Flask(__name__)
-
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 @app.route('/')
 def home():
@@ -39,6 +39,17 @@ def predict():
         else:
             return "Error occurred", response.status_code
     
+
+@app.route("/dog_image")
+def image():
+    response=requests.get("https://dog.ceo/api/breeds/image/random")
+    response1=requests.get("https://dogapi.dog/api/v2/facts?limit=50")
+    url=response.json()["message"]
+    data=response1.json()["data"][0]["attributes"]["body"]
+    flash(data)
+    
+    return render_template("picture.html",url=url)
+
 if __name__ == "__main__":
 
     app.run(debug=True)
